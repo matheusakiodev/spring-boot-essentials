@@ -15,16 +15,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/produtos")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // usando o lombok para não ter que usar o autowired e instanciar um a um, os atributos private final já sao colocados dentro do construtor
 public class ProdutoController {
 
-    private final ProdutoService produtoService;
+    private final ProdutoService produtoService; // fazemos a injeçao por via do construtor usando o lombok
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ProdutoEntity> findAll() {
         return produtoService.findAll();
     }
-
 
 }
