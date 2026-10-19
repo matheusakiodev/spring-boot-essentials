@@ -1,5 +1,6 @@
 package br.com.kumagai.spring_boot_essentials.service;
 
+import br.com.kumagai.spring_boot_essentials.database.dto.ProdutoDto;
 import br.com.kumagai.spring_boot_essentials.database.model.ProdutoEntity;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ public class ProdutoService  {
 
     //vamos mockar um banco de dados
     private static final List<ProdutoEntity> PRODUTOS = new ArrayList<>();
+
     static {
         PRODUTOS.add (ProdutoEntity.builder()
                 .id(1)
@@ -37,6 +39,25 @@ public class ProdutoService  {
     public List<ProdutoEntity> findAll() {
         return new ArrayList<>(PRODUTOS);
 
+    }
+
+    public ProdutoEntity createProduct(ProdutoDto produtoDto) {
+
+        Integer identificador = PRODUTOS.stream()
+                .mapToInt(ProdutoEntity::getId)
+                .max()
+                .orElse(0) + 1;
+
+        ProdutoEntity novoProduto = ProdutoEntity.builder()
+                .id(identificador)
+                .nome(produtoDto.getNome())
+                .preco(produtoDto.getPreco())
+                .quantidade(produtoDto.getQuantidade())
+                .build();
+
+        PRODUTOS.add(novoProduto);
+
+        return novoProduto;
     }
 
 }
