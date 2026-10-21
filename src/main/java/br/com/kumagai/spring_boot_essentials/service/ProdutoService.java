@@ -1,8 +1,9 @@
 package br.com.kumagai.spring_boot_essentials.service;
 
-import br.com.kumagai.spring_boot_essentials.database.dto.ProdutoDto;
+import br.com.kumagai.spring_boot_essentials.dto.ProdutoDto;
 import br.com.kumagai.spring_boot_essentials.database.model.ProdutoEntity;
 import org.springframework.stereotype.Service;
+
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Service
 public class ProdutoService  {
-
     //vamos mockar um banco de dados
     private static final List<ProdutoEntity> PRODUTOS = new ArrayList<>();
 
@@ -23,6 +23,7 @@ public class ProdutoService  {
                 .build());
 
         PRODUTOS.add(ProdutoEntity.builder()
+                .id(2)
                 .nome("Iphone")
                 .preco(new BigDecimal(7000))
                 .quantidade(10)
@@ -38,11 +39,9 @@ public class ProdutoService  {
 
     public List<ProdutoEntity> findAll() {
         return new ArrayList<>(PRODUTOS);
-
     }
 
     public ProdutoEntity createProduct(ProdutoDto produtoDto) {
-
         Integer identificador = PRODUTOS.stream()
                 .mapToInt(ProdutoEntity::getId)
                 .max()
