@@ -2,6 +2,7 @@ package br.com.kumagai.spring_boot_essentials.service;
 
 import br.com.kumagai.spring_boot_essentials.dto.ProdutoDto;
 import br.com.kumagai.spring_boot_essentials.database.model.ProdutoEntity;
+import br.com.kumagai.spring_boot_essentials.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -57,6 +58,24 @@ public class ProdutoService  {
         PRODUTOS.add(novoProduto);
 
         return novoProduto;
+    }
+
+    public ProdutoEntity atualizarProduto(ProdutoDto produtoDto, Integer id) throws NotFoundException {
+
+        ProdutoEntity produto = PRODUTOS.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Produto não encontrado."));
+
+        produto.setNome(produtoDto.getNome());
+        produto.setPreco(produtoDto.getPreco());
+        produto.setQuantidade(produtoDto.getQuantidade());
+
+        return produto;
+    }
+
+    public void deleteProduto(Integer id) {
+        PRODUTOS.removeIf(p -> p.getId().equals(id));
     }
 
 }

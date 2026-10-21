@@ -2,6 +2,7 @@ package br.com.kumagai.spring_boot_essentials.controller;
 
 import br.com.kumagai.spring_boot_essentials.dto.ProdutoDto;
 import br.com.kumagai.spring_boot_essentials.database.model.ProdutoEntity;
+import br.com.kumagai.spring_boot_essentials.exception.NotFoundException;
 import br.com.kumagai.spring_boot_essentials.service.ProdutoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,19 @@ public class ProdutoController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoEntity createProduct(@RequestBody ProdutoDto produtoDto) {
         return produtoService.createProduct(produtoDto);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProdutoEntity updateProduct(@RequestBody ProdutoDto produtoDto,
+                                       @PathVariable Integer id) throws NotFoundException {
+        return produtoService.atualizarProduto(produtoDto, id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable Integer id) {
+        produtoService.deleteProduto(id);
     }
 
 }
